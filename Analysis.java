@@ -13,7 +13,9 @@ public class Analysis {
       Scanner reader = new Scanner(file);
       Graph<String> network = new NetworkParser(reader.useDelimiter("\n").tokens()).parse();
       reader.close();
-      System.out.println(network.countVertices());
+
+      System.out.println("Network density:\t"+network.getDensity());
+
     } catch (FileNotFoundException e) {
       System.out.println("An error occured");
       e.printStackTrace();

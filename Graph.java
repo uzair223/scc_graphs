@@ -24,4 +24,11 @@ public class Graph<T> {
     for(T key : graph.keySet()) count += graph.get(key).size();
     return count;
   }
+
+  // Task 1 - graph density using formula: D = |E|/|(V|(|V|-1)) 
+  public double getDensity() {
+    double E = (double)this.countEdges();
+    double V = (double)this.countVertices();
+    return E/(V*(V-1));
+  }
 }
