@@ -72,4 +72,16 @@ public class Graph<T extends Comparable<T>> {
     }
     return sortMap(incomingEdges);
   }
+
+  // Task 3 - maximum outgoing edges
+  public LinkedHashMap<T, Integer> getNumOutgoingEdges() {
+    return sortMap(
+      graph.entrySet().stream().collect(Collectors.toMap(
+          Map.Entry::getKey,
+          x->x.getValue().size(), // transforming to map with key T and value correspondent to T's connections
+          (a,b)->b,
+          HashMap::new
+        )
+    ));
+  }
 }

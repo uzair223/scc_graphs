@@ -19,6 +19,8 @@ public class Analysis {
       System.out.println("Network density:\t\t\t"+network.getDensity());
       // Task 2
       System.out.println("Highest number of followers:\t\t"+network.getNumIncomingEdges().firstEntry().getKey());
+      // Task 3
+      System.out.println("Follows the most people:\t\t"+network.getNumOutgoingEdges().firstEntry().getKey());
 
     } catch (FileNotFoundException e) {
       System.out.println("An error occured");
