@@ -11,10 +11,14 @@ public class Analysis {
     try {
       File file = new File(args[0]);
       Scanner reader = new Scanner(file);
-      Graph<String> network = new NetworkParser(reader.useDelimiter("\n").tokens()).parse();
+      NetworkParser parser = new NetworkParser(reader.useDelimiter("\n").tokens());
+      Graph<String> network = parser.parse();
       reader.close();
-
-      System.out.println("Network density:\t"+network.getDensity());
+      
+      // Task 1
+      System.out.println("Network density:\t\t\t"+network.getDensity());
+      // Task 2
+      System.out.println("Highest number of followers:\t\t"+network.getNumIncomingEdges().firstEntry().getKey());
 
     } catch (FileNotFoundException e) {
       System.out.println("An error occured");
