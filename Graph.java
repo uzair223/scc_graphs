@@ -84,4 +84,52 @@ public class Graph<T extends Comparable<T>> {
         )
     ));
   }
+
+  // Task 4 - degrees of separation
+  public Graph<T> invert() {
+    /*
+     * Graph invert utility function
+     * -----------------------------
+     * Function to invert a -> b relation to b <- a
+     * i.e. convert from graph of following to graph of followers
+     */
+    Graph<T> invGraph = new Graph<>();
+    for(var vertex : graph.entrySet()) {
+      for(T to : vertex.getValue()) {
+        invGraph.addDirectedEdge(to, vertex.getKey());
+      }
+    }
+    return invGraph;
+  }
+
+  public List<T> getDistance(T src, int degrees) {
+    List<T> out = new LinkedList<>();
+
+    Queue<T> queue = new LinkedList<>();
+    Set<T> visited = new HashSet<>();
+    Map<T, Integer> distances = new HashMap<>();
+
+    queue.add(src);
+    visited.add(src);
+    distances.put(src, 0);
+
+    // while there are still unvisited vertices in the queue
+    while(!queue.isEmpty()) {
+      // pop queue
+      T currentVertex = queue.remove();
+      Integer currentDistance = distances.get(currentVertex);
+      // If current vertex is within degrees distance from src (excluding src) then add to output array.
+      if(currentDistance == degrees) out.add(currentVertex);
+      // If current vertex is less than degrees distance, then add unvisited neighbours to queue for searching.
+      if(currentDistance < degrees) {
+        for(T neigh : graph.get(currentVertex)) {
+          if(visited.contains(neigh)) continue;
+          queue.add(neigh);
+          visited.add(neigh);
+          distances.put(neigh, currentDistance+1);
+        }
+      }
+    }
+    return out;
+  }
 }

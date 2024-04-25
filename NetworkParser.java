@@ -5,6 +5,7 @@ import java.util.stream.Stream;
  */
 public class NetworkParser {
   Stream<String> lineStream;
+  Set<String> uniqueTokens = new LinkedHashSet<>();
 
   NetworkParser(Stream<String> lineStream) {
     this.lineStream = lineStream;
@@ -16,12 +17,18 @@ public class NetworkParser {
       ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(line.strip().split(" ")));
       if(tokens.size() < 1) return;
       String from = tokens.remove(0).strip();
-      String from = tokens.remove(0);
+      uniqueTokens.add(from);
       for(String token : tokens) {
         String vertex = token.strip();
-        if(vertex.length() > 0) graph.addDirectedEdge(from,vertex);
+        if(vertex.length() <= 0) continue;
+        graph.addDirectedEdge(from,vertex);
+        uniqueTokens.add(vertex);
       }
     });
     return graph;
+  }
+
+  public String getToken(int index) {
+    return (String)uniqueTokens.toArray()[index];
   }
 }

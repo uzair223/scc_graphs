@@ -21,6 +21,10 @@ public class Analysis {
       System.out.println("Highest number of followers:\t\t"+network.getNumIncomingEdges().firstEntry().getKey());
       // Task 3
       System.out.println("Follows the most people:\t\t"+network.getNumOutgoingEdges().firstEntry().getKey());
+      // Task 4
+      String first = parser.getToken(0);
+      int degrees = 2;
+      System.out.println("Number of people "+degrees+" d.o.s. from "+first+":\t"+network.invert().getDistance(first, degrees).size());
 
     } catch (FileNotFoundException e) {
       System.out.println("An error occured");
