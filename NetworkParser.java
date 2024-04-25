@@ -9,11 +9,13 @@ public class NetworkParser {
   NetworkParser(Stream<String> lineStream) {
     this.lineStream = lineStream;
   }
+
   public Graph<String> parse(){
     Graph<String> graph = new Graph<>();
     lineStream.forEach(line -> {
-      ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(line.split(" ")));
+      ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(line.strip().split(" ")));
       if(tokens.size() < 1) return;
+      String from = tokens.remove(0).strip();
       String from = tokens.remove(0);
       for(String token : tokens) {
         String vertex = token.strip();
