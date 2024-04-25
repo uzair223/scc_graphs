@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /*
  * SCC Social Networks Summer Project
@@ -25,6 +26,13 @@ public class Analysis {
       String first = parser.getToken(0);
       int degrees = 2;
       System.out.println("Number of people "+degrees+" d.o.s. from "+first+":\t"+network.invert().getDistance(first, degrees).size());
+      // Task 5
+      var numArray = network.getNumIncomingEdges().values().stream().collect(Collectors.toList()).reversed();
+      int size = numArray.size();
+      double median;
+      if (size % 2 == 0) median = ((double)numArray.get(size/2) + (double)numArray.get(size/2 - 1))/2;
+      else median = (double) numArray.get(size/2);
+      System.out.println("Median number of followers:\t\t"+median);
 
     } catch (FileNotFoundException e) {
       System.out.println("An error occured");
