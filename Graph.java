@@ -132,4 +132,33 @@ public class Graph<T extends Comparable<T>> {
     }
     return out;
   }
+
+  // Task 6 - maximum reach
+  public Set<T> breadthFirstSearch(T src) {
+    Set<T> visited = new HashSet<>();
+    Queue<T> queue = new LinkedList<>();
+
+    queue.add(src);
+    visited.add(src);
+
+    while (!queue.isEmpty()) {
+      T currentVertex = queue.remove();
+      for(T neigh : graph.get(currentVertex)) {
+        if(visited.contains(neigh)) continue;
+        visited.add(neigh);
+        queue.add(neigh);
+      }
+    }
+
+    visited.remove(src);
+    return visited;
+  }
+
+  public Map.Entry<T,Integer> findMostConnected() {
+    return sortMap(graph.entrySet().stream().collect(Collectors.toMap(
+      Map.Entry::getKey,
+      x-> breadthFirstSearch(x.getKey()).size(),
+      (a,b)->b,
+      HashMap::new))).firstEntry();
+  }
 }

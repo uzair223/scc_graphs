@@ -33,6 +33,8 @@ public class Analysis {
       if (size % 2 == 0) median = ((double)numArray.get(size/2) + (double)numArray.get(size/2 - 1))/2;
       else median = (double) numArray.get(size/2);
       System.out.println("Median number of followers:\t\t"+median);
+      // Task 6
+      System.out.println("Most outreach:\t\t\t\t"+network.invert().findMostConnected().getKey());      
 
     } catch (FileNotFoundException e) {
       System.out.println("An error occured");
