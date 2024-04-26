@@ -26,6 +26,11 @@ public class Graph<T extends Comparable<T>> {
     return count;
   }
 
+
+  public Set<T> getKeys() { return graph.keySet(); }
+  public List<T> get(T key) { return graph.get(key); }
+  public boolean hasKey(T key) { return graph.containsKey(key); }
+
   // Task 1 - graph density using formula: D = |E|/|(V|(|V|-1)) 
   public double getDensity() {
     double E = (double)this.countEdges();
@@ -103,6 +108,7 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> getDistance(T src, int degrees) {
+    // returning list of vertices 'degrees' distance away from src
     List<T> out = new LinkedList<>();
 
     Queue<T> queue = new LinkedList<>();
@@ -118,7 +124,7 @@ public class Graph<T extends Comparable<T>> {
       // pop queue
       T currentVertex = queue.remove();
       Integer currentDistance = distances.get(currentVertex);
-      // If current vertex is within degrees distance from src (excluding src) then add to output array.
+      // If current vertex is degrees distance from src (excluding src) then add to output array.
       if(currentDistance == degrees) out.add(currentVertex);
       // If current vertex is less than degrees distance, then add unvisited neighbours to queue for searching.
       if(currentDistance < degrees) {
@@ -134,8 +140,10 @@ public class Graph<T extends Comparable<T>> {
   }
 
   // Task 6 - maximum reach
-  public Set<T> breadthFirstSearch(T src) {
+  public Graph<T> breadthFirstSearch(T src) {
+    // returning subgraph of results of breadth first search rooted at 'src' vertex
     Set<T> visited = new HashSet<>();
+    Graph<T> visitedGraph = new Graph<>();
     Queue<T> queue = new LinkedList<>();
 
     queue.add(src);
@@ -145,19 +153,18 @@ public class Graph<T extends Comparable<T>> {
       T currentVertex = queue.remove();
       for(T neigh : graph.get(currentVertex)) {
         if(visited.contains(neigh)) continue;
+        visitedGraph.addDirectedEdge(currentVertex, neigh);
         visited.add(neigh);
         queue.add(neigh);
       }
     }
-
-    visited.remove(src);
-    return visited;
+    return visitedGraph;
   }
 
   public Map.Entry<T,Integer> findMostConnected() {
     return sortMap(graph.entrySet().stream().collect(Collectors.toMap(
       Map.Entry::getKey,
-      x-> breadthFirstSearch(x.getKey()).size(),
+      x -> breadthFirstSearch(x.getKey()).getKeys().size()-1,
       (a,b)->b,
       HashMap::new))).firstEntry();
   }
