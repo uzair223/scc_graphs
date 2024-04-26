@@ -13,16 +13,19 @@ public class NetworkParser {
 
   public Graph<String> parse(){
     Graph<String> graph = new Graph<>();
+    // for each line
     lineStream.forEach(line -> {
+      // split line into word tokens
       ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(line.strip().split(" ")));
       if(tokens.size() < 1) return;
-      String from = tokens.remove(0).strip();
-      uniqueTokens.add(from);
+      String from = tokens.remove(0).strip(); // vertex to create edges from
+      uniqueTokens.add(from); // add to set of unique tokens
+      // for each remaining token (excluding first)
       for(String token : tokens) {
         String vertex = token.strip();
         if(vertex.length() <= 0) continue;
-        graph.addDirectedEdge(from,vertex);
-        uniqueTokens.add(vertex);
+        graph.addDirectedEdge(from,vertex); // add edge between first token and current
+        uniqueTokens.add(vertex); // add to set of unique tokens
       }
     });
     return graph;

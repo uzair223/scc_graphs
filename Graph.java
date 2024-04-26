@@ -149,10 +149,16 @@ public class Graph<T extends Comparable<T>> {
     queue.add(src);
     visited.add(src);
 
+    // while there are still vertices nodes in the queue
     while (!queue.isEmpty()) {
+      // pop queue
       T currentVertex = queue.remove();
+      // explore neighbours
       for(T neigh : graph.get(currentVertex)) {
+        // if neighbour is already visited then skip
         if(visited.contains(neigh)) continue;
+        // otherwise add edge between current vertex and neighbour in the visited subgraph
+        // queue the neighbour vertex for searching
         visitedGraph.addDirectedEdge(currentVertex, neigh);
         visited.add(neigh);
         queue.add(neigh);
@@ -162,6 +168,7 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public Map.Entry<T,Integer> findMostConnected() {
+    // compute bfs on each node; return one with the highest no. of connections
     return sortMap(graph.entrySet().stream().collect(Collectors.toMap(
       Map.Entry::getKey,
       x -> breadthFirstSearch(x.getKey()).getKeys().size()-1,
