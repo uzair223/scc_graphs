@@ -23,11 +23,12 @@ public class Analysis extends JPanel {
   private static final int PADDING = 20;
   private static final int POINT_RADIUS = 25;
   private static final int ARR_SIZE = 4;
+  private static final TreePanel treePanel = new TreePanel();
 
   private Graph<String> invGraph;
   private Graph<String> bfs;
   private Info info;
-
+  
   Map<String, Node> nodes = new HashMap<>();
 
   private static String selected;
@@ -125,9 +126,14 @@ public class Analysis extends JPanel {
   
           // UI
           Analysis mainPanel = new Analysis(graph, parser);
+          JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePanel.pane, mainPanel);
+
+          splitPane.setOneTouchExpandable(true);
+          splitPane.setDividerLocation(150);
+
           JFrame frame = new JFrame("DrawGraph");
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          frame.getContentPane().add(mainPanel);
+          frame.getContentPane().add(splitPane);
           frame.pack();
           frame.setLocationByPlatform(true);
           frame.setVisible(true);
@@ -151,10 +157,11 @@ public class Analysis extends JPanel {
           selected = n.label;
           // compute breadth first search to visualize propagation network
           bfs = invGraph.breadthFirstSearch(selected);
+          treePanel.setTree(invGraph, selected);
         }
       });
       // repaint main component
-      e.getComponent().repaint();
+      e.getComponent().getParent().repaint();
     }
   }
 
