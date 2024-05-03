@@ -154,7 +154,9 @@ public class Graph<T extends Comparable<T>> {
       // pop queue
       T currentVertex = queue.remove();
       // explore neighbours
-      for(T neigh : graph.get(currentVertex)) {
+      var neighbours =  graph.get(currentVertex);
+      neighbours.sort(Comparator.naturalOrder());
+      for(T neigh : neighbours) {
         // if neighbour is already visited then skip
         if(visited.contains(neigh)) continue;
         // otherwise add edge between current vertex and neighbour in the visited subgraph
