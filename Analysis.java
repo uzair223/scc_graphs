@@ -219,7 +219,7 @@ public class Analysis extends JPanel {
     Info(Graph<String> graph, NetworkParser parser) {
       // computing all static information before main paint cycle
       density = graph.getDensity();
-      var numArray = graph.getNumIncomingEdges().values().stream().collect(Collectors.toList()).reversed();
+      List<Integer> numArray = graph.getNumIncomingEdges().values().stream().collect(Collectors.toList()).reversed();
       int size = numArray.size();
       if (size % 2 == 0) median = ((double)numArray.get(size/2) + (double)numArray.get(size/2 - 1))/2;
       else median = (double) numArray.get(size/2);

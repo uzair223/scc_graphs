@@ -70,7 +70,7 @@ public class Graph<T extends Comparable<T>> {
      *      then increment by 1,
      *      otherwise initialize to 1.
      */
-    for(var vertex : graph.entrySet()) {
+    for(Map.Entry<T, List<T>> vertex : graph.entrySet()) {
       for(T to : vertex.getValue()) {
         incomingEdges.merge(to, 1, Integer::sum);
       }
@@ -99,7 +99,7 @@ public class Graph<T extends Comparable<T>> {
      * i.e. convert from graph of following to graph of followers
      */
     Graph<T> invGraph = new Graph<>();
-    for(var vertex : graph.entrySet()) {
+    for(Map.Entry<T, List<T>> vertex : graph.entrySet()) {
       for(T to : vertex.getValue()) {
         invGraph.addDirectedEdge(to, vertex.getKey());
       }
@@ -154,7 +154,7 @@ public class Graph<T extends Comparable<T>> {
       // pop queue
       T currentVertex = queue.remove();
       // explore neighbours
-      var neighbours =  graph.get(currentVertex);
+      List<T> neighbours =  graph.get(currentVertex);
       neighbours.sort(Comparator.naturalOrder());
       for(T neigh : neighbours) {
         // if neighbour is already visited then skip
